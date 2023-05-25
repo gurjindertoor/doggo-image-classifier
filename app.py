@@ -39,7 +39,6 @@ explanations = {
     "min weight female": "Measured in lbs.",
 }
 
-
 # 1. Create a function for preprocessing images
 def process_image(image_path, img_size=IMG_SIZE):
     image = tf.io.read_file(image_path)
@@ -48,7 +47,6 @@ def process_image(image_path, img_size=IMG_SIZE):
     image = tf.image.resize(image, size=[IMG_SIZE, IMG_SIZE])
     return image
 
-
 # Load the model
 def load_model(model_path):
     print(f"Loading saved model from: {model_path}")
@@ -56,15 +54,6 @@ def load_model(model_path):
         model_path, custom_objects={"KerasLayer": hub.KerasLayer}
     )
     return model
-
-
-# # FOR TFLITE
-# def load_model(model_path):
-#     print(f"Loading saved model from: {model_path}")
-#     model = tf.lite.Interpreter(model_path=model_path)
-#     model.allocate_tensors()
-#     return model
-
 
 # Predict labels for custom images
 def predict_custom_images(model, custom_image_paths):
@@ -76,27 +65,10 @@ def predict_custom_images(model, custom_image_paths):
     ]
     return custom_pred_labels, custom_images
 
-
-# FOR TFLITE
-# def predict_custom_images(model, custom_image_paths):
-#     custom_images = [process_image(image_path) for image_path in custom_image_paths]
-#     custom_data = tf.data.Dataset.from_tensor_slices(custom_images).batch(32)
-#     custom_preds = []
-#     for input_data in custom_data:
-#         model.set_tensor(model.get_input_details()[0]["index"], input_data)
-#         model.invoke()
-#         custom_preds.extend(model.get_tensor(model.get_output_details()[0]["index"]))
-#     custom_pred_labels = [
-#         get_pred_label(custom_preds[i]) for i in range(len(custom_preds))
-#     ]
-#     return custom_pred_labels, custom_images
-
-
 # Define labels and unique breeds
 labels_csv = pd.read_csv("doggo_files\labels.csv")
 labels = labels_csv["breed"].to_numpy()
 unique_breeds = np.unique(labels)
-
 
 # Turn prediction probabilities into their respective label
 def get_pred_label(prediction_probabilities):
@@ -104,7 +76,6 @@ def get_pred_label(prediction_probabilities):
     label_words = label.replace("_", " ").split()
     capitalized_label = " ".join([word.capitalize() for word in label_words])
     return capitalized_label
-
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "doggo_classifier"
@@ -123,11 +94,9 @@ class UploadForm(FlaskForm):
     )
     submit = SubmitField("Upload")
 
-
 @app.route("/uploads/<filename>")
 def get_file(filename):
     return send_from_directory(app.config["UPLOADED_PHOTOS_DEST"], filename)
-
 
 @app.route("/", methods=["GET", "POST"])
 def upload_image():
@@ -153,7 +122,6 @@ def upload_image():
         file_url = None
         return render_template("index.html", form=form, file_url=file_url)
 
-
 @app.route("/breed_info/<breed>")
 def get_breed_info(breed):
     api_url = "https://api.api-ninjas.com/v1/dogs?name={}".format(breed)
@@ -176,10 +144,6 @@ def get_breed_info(breed):
             "breed_info.html", breed=breed, error_message=error_message
         )
 
-
 if __name__ == "__main__":
     loaded_full_model = load_model("model\doggo-classifier-eff-net.h5")
-    # loaded_full_model = load_model(
-    #     "model/new-full-image-set-eff-net-tflite-model (1).tflite"
-    # )
     app.run(port=3000, debug=True)
