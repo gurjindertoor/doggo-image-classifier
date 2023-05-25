@@ -126,7 +126,7 @@ def upload_image():
 def get_breed_info(breed):
     api_url = "https://api.api-ninjas.com/v1/dogs?name={}".format(breed)
     response = requests.get(
-        api_url, headers={"X-Api-Key": "J5ESuUp63zg/LdInrS0IZQ==6ZiDcXST8vmet06p"}
+        api_url, headers={"X-Api-Key": "YOUR-API-KEY-HERE"}
     )
     if response.status_code == requests.codes.ok:
         breed_info = response.json()
