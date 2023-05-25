@@ -58,6 +58,14 @@ def load_model(model_path):
     return model
 
 
+# # FOR TFLITE
+# def load_model(model_path):
+#     print(f"Loading saved model from: {model_path}")
+#     model = tf.lite.Interpreter(model_path=model_path)
+#     model.allocate_tensors()
+#     return model
+
+
 # Predict labels for custom images
 def predict_custom_images(model, custom_image_paths):
     custom_images = [process_image(image_path) for image_path in custom_image_paths]
@@ -67,6 +75,21 @@ def predict_custom_images(model, custom_image_paths):
         get_pred_label(custom_preds[i]) for i in range(len(custom_preds))
     ]
     return custom_pred_labels, custom_images
+
+
+# FOR TFLITE
+# def predict_custom_images(model, custom_image_paths):
+#     custom_images = [process_image(image_path) for image_path in custom_image_paths]
+#     custom_data = tf.data.Dataset.from_tensor_slices(custom_images).batch(32)
+#     custom_preds = []
+#     for input_data in custom_data:
+#         model.set_tensor(model.get_input_details()[0]["index"], input_data)
+#         model.invoke()
+#         custom_preds.extend(model.get_tensor(model.get_output_details()[0]["index"]))
+#     custom_pred_labels = [
+#         get_pred_label(custom_preds[i]) for i in range(len(custom_preds))
+#     ]
+#     return custom_pred_labels, custom_images
 
 
 # Define labels and unique breeds
@@ -155,5 +178,8 @@ def get_breed_info(breed):
 
 
 if __name__ == "__main__":
-    loaded_full_model = load_model("model/doggo-classifier-eff-net.h5")
+    loaded_full_model = load_model("model\doggo-classifier-eff-net.h5")
+    # loaded_full_model = load_model(
+    #     "model/new-full-image-set-eff-net-tflite-model (1).tflite"
+    # )
     app.run(port=3000, debug=True)
