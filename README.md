@@ -18,8 +18,14 @@ Before you begin, ensure you have met the following requirements:
 * Pillow
 
 You can install any missing requirements with pip:
-```bash
-pip install tensorflow tensorflow_hub numpy pandas requests flask flask_uploads wtforms Pillow
+  ```bash
+  python -m venv env
+  ```
+  ```bash
+  .\env\Scripts\activate
+  ```
+  ```bash
+  pip install tensorflow tensorflow_hub numpy pandas requests flask flask_uploads wtforms Pillow
 ```
 ## Getting an API Key
 This project requires an API key from [API Ninjas](https://api-ninjas.com/). To obtain it, please follow the steps below:
@@ -94,7 +100,9 @@ If you want to contact me, you can reach me at gurjindertoor1@gmail.com
 This project uses the following license: MIT.
   
 ## Images
-  
-![doggoclassifier1](https://github.com/gurjindertoor/doggo_image_classifier/assets/78512847/11313d6f-01b7-4a3a-9461-53ee1b479450)
-  
-![doggoclassifier2](https://github.com/gurjindertoor/doggo_image_classifier/assets/78512847/4876eb69-b12e-43a0-a94c-1d6e5ec17444)
+
+![doggoclassifier1](https://github.com/gurjindertoor/doggo_image_classifier/assets/78512847/65975b3e-9734-4eea-bcb2-25961876d99d)
+
+![doggoclassifier2](https://github.com/gurjindertoor/doggo_image_classifier/assets/78512847/1ab70601-0e75-49e6-be91-09174d9c2058)
+
+
